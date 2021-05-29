@@ -79,15 +79,58 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public class PlayerShoot
+    {
+        private PlayerController controller;
+        public Animator animator;
+        public bool canShoot = true;
+
+        public void Start(PlayerController playerController)
+        {
+            controller = playerController;
+            animator = playerController.GetComponent<Animator>();
+        }
+
+        private void Shoot()
+        {
+            RaycastHit2D hit = Physics2D.Raycast(controller.transform.position, controller.transform.position + new Vector3(10 * -controller.transform.localScale.x, 0, 0), 10, LayerMask.GetMask("Enemy"));
+
+            if(hit.collider != null)
+            {
+                Destroy(hit.collider.gameObject);
+            }
+        }
+
+        public void Update()
+        {
+            if (Input.GetKey(KeyCode.Mouse0) && canShoot)
+            {
+                canShoot = false;
+                controller.StartCoroutine(sprayTime());
+                Shoot();
+            }
+            Debug.DrawLine(controller.transform.position, controller.transform.position + new Vector3(10 * -controller.transform.localScale.x, 0, 0), Color.yellow);
+        }
+
+        IEnumerator sprayTime()
+        {
+            yield return new WaitForSeconds(0.25f);
+            canShoot = true;
+        }
+    }
+
     private PlayerMovement movement = new PlayerMovement();
+    private PlayerShoot shoot = new PlayerShoot();
 
     private void Start()
     {
         movement.Start(this);
+        shoot.Start(this);
     }
 
     private void Update()
     {
         movement.Update();
+        shoot.Update();
     }
 }
