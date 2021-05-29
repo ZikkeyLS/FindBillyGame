@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
 
         private void Shoot()
         {
-            RaycastHit2D hit = Physics2D.Raycast(controller.transform.position, controller.transform.position + new Vector3(10 * -controller.transform.localScale.x, 0, 0), 10, LayerMask.GetMask("Enemy"));
+            RaycastHit2D hit = Physics2D.Raycast(controller.transform.position, controller.transform.position + new Vector3(10 * -controller.transform.localScale.x, 0, 0), 100, LayerMask.GetMask("Enemy"));
 
             if(hit.collider != null)
             {
