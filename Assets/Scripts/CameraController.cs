@@ -7,6 +7,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float cameraSpeed = 50;
     [SerializeField] private bool follow = true;
     private Camera cam;
+    private float lastScreenSize = -1;
+    private readonly float cameraModificator = 15;
 
     private void Start()
     {
@@ -16,7 +18,12 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         float screenSize = (float)Screen.height / (float)Screen.width;
-        cam.orthographicSize = screenSize * 15;
+        if (screenSize != lastScreenSize)
+        {
+            cam.orthographicSize = screenSize * cameraModificator;
+            lastScreenSize = screenSize;
+        }
+
     }
 
     private void FixedUpdate()

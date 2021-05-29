@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         private PlayerController controller;
         public Animator animator;
         public bool canShoot = true;
+        private float distance = 100f;
 
         public void Start(PlayerController playerController)
         {
@@ -93,12 +94,14 @@ public class PlayerController : MonoBehaviour
 
         private void Shoot()
         {
-            RaycastHit2D hit = Physics2D.Raycast(controller.transform.position, controller.transform.position + new Vector3(10 * -controller.transform.localScale.x, 0, 0), 100, LayerMask.GetMask("Enemy"));
+            RaycastHit2D hit = Physics2D.Raycast(controller.transform.position, controller.transform.position + new Vector3(-controller.transform.localScale.x * distance, 0, 0), distance, LayerMask.GetMask("Enemy"));
+            animator.SetTrigger("shoot");
 
-            if(hit.collider != null)
-            {
-                Destroy(hit.collider.gameObject);
-            }
+            if (hit.collider == null)
+                return;
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
+            if (enemy != null)
+                enemy.GiveDamage(10);
         }
 
         public void Update()
@@ -114,7 +117,7 @@ public class PlayerController : MonoBehaviour
 
         IEnumerator sprayTime()
         {
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.75f);
             canShoot = true;
         }
     }
