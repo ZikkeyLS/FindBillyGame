@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using static UnityEngine.UI.Button;
 
 public class PlayerController : MonoBehaviour
 {
@@ -122,18 +125,94 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public class Inventory
+    {
+        public struct Slot
+        {
+            public GameObject itemPrefab;
+            public Sprite itemPicture;
+            public string itemName;
+
+            public void Initialize(GameObject itemPrefab, Sprite itemPicture, string itemName)
+            {
+                this.itemPrefab = itemPrefab;
+                this.itemPicture = itemPicture;
+                this.itemName = itemName;
+            }
+
+            public void DropObject(Transform player)
+            {
+                Instantiate(itemPrefab, player.position + new Vector3(2 * -player.localScale.x, 0), Quaternion.identity);
+            }
+        }
+
+        private Slot[] slots = new Slot[15];
+        private int currentSlot = 1;
+        private GameObject[] slotsContainer;
+        private Text slotNameContainer;
+
+        public void Start(GameObject[] slotsContainer, Text slotNameContainer)
+        {
+            this.slotsContainer = slotsContainer;
+            this.slotNameContainer = slotNameContainer;
+
+            print(slotsContainer.Length);
+
+            for(int i = 0; i < slotsContainer.Length; i++)
+            {
+                Button button = slotsContainer[i].GetComponent<Button>();
+                button.onClick.AddListener(delegate { OnButtonClick(button.gameObject); });
+            }
+        }
+
+        private void OnButtonClick(GameObject gameObject)
+        {
+           int id = Int32.Parse(gameObject.name);
+           slotNameContainer.text = slots[id - 1].itemName;
+        }
+
+        private void test(string name)
+        {
+            print(name);
+        }
+
+
+        public void AddSlot(Item item)
+        {
+            Slot slot = new Slot();
+            slot.Initialize(item.itemPrefab, item.itemPicture, item.itemName);
+
+            if (currentSlot == 15)
+                return;
+
+            slots[currentSlot - 1] = slot;
+            slotsContainer[currentSlot - 1].GetComponent<Image>().sprite = item.itemPicture;
+
+            currentSlot++;
+        }
+    }
+
+    public static GameObject Player;
+
+    [SerializeField] private GameObject[] slotsContainer;
+    [SerializeField] private GameObject slotNameContainer;
+
     private PlayerMovement movement = new PlayerMovement();
     private PlayerShoot shoot = new PlayerShoot();
+    public Inventory inventory = new Inventory();
 
-    private void Start()
+    private void Awake()
     {
+        Player = gameObject;
         movement.Start(this);
         shoot.Start(this);
+        inventory.Start(slotsContainer, slotNameContainer.GetComponent<Text>());
     }
 
     private void Update()
     {
         movement.Update();
         shoot.Update();
+        
     }
 }
