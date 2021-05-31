@@ -144,6 +144,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        private readonly int slotsCount = 15;
         private Slot[] slots = new Slot[15];
         private int currentSlot = 1;
         private GameObject[] slotsContainer;
@@ -196,10 +197,10 @@ public class PlayerController : MonoBehaviour
             Slot slot = new Slot();
             slot.Initialize(item.itemPrefab, item.itemPicture, item.itemName);
 
-            if (currentSlot > 15)
+            if (currentSlot > slotsCount)
                 return false;
 
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < slotsCount; i++)
             {
                 if(slots[i].itemPrefab == null)
                 {
@@ -217,14 +218,18 @@ public class PlayerController : MonoBehaviour
 
     public static GameObject Player;
 
+    [Header("Inventory")]
     [SerializeField] private GameObject[] slotsContainer;
     [SerializeField] private Text slotNameContainer;
     [SerializeField] private Button slotDropButton;
     [SerializeField] private Sprite itemIcon;
+    [SerializeField] private GameObject inventoryMenu;
 
     private PlayerMovement movement = new PlayerMovement();
     private PlayerShoot shoot = new PlayerShoot();
     public Inventory inventory = new Inventory();
+
+    private bool needToUpdate = true;
 
     private void Awake()
     {
@@ -236,8 +241,18 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        movement.Update();
-        shoot.Update();
-        
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            inventoryMenu.SetActive(!inventoryMenu.activeSelf);
+            Time.timeScale = inventoryMenu.activeSelf ? 0 : 1;
+            needToUpdate = !inventoryMenu.activeSelf;
+        }
+
+        if (needToUpdate)
+        {
+            movement.Update();
+            shoot.Update();
+        }
+
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class Item : MonoBehaviour
@@ -8,15 +7,19 @@ public class Item : MonoBehaviour
     public Sprite itemPicture;
     public string itemName = string.Empty;
 
+    private GameObject player;
+
     private void Start()
     {
-        StartCoroutine(AddSlot());
+        player = PlayerController.Player;
     }
 
-    private IEnumerator AddSlot()
+    private void Update()
     {
-        PlayerController.Player.GetComponent<PlayerController>().inventory.AddSlot(this);
-        yield return new WaitForSeconds(3f);
-        StartCoroutine(AddSlot());
+        if (Input.GetKey(KeyCode.E) && Vector3.Distance(player.transform.position, transform.position) < 3)
+        {
+            if (player.GetComponent<PlayerController>().inventory.AddSlot(this))
+                Destroy(gameObject);
+        }
     }
 }
