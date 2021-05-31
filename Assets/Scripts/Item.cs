@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 
 public class Item : MonoBehaviour
@@ -9,6 +10,13 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(AddSlot());
+    }
+
+    private IEnumerator AddSlot()
+    {
         PlayerController.Player.GetComponent<PlayerController>().inventory.AddSlot(this);
+        yield return new WaitForSeconds(3f);
+        StartCoroutine(AddSlot());
     }
 }

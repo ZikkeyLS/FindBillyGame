@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.UI.Button;
 
 public class PlayerController : MonoBehaviour
 {
@@ -150,52 +148,79 @@ public class PlayerController : MonoBehaviour
         private int currentSlot = 1;
         private GameObject[] slotsContainer;
         private Text slotNameContainer;
+        private Button slotDropButton;
+        private Sprite itemIcon;
+        private Slot selectedSlot;
+        private int selectedID = 0;
 
-        public void Start(GameObject[] slotsContainer, Text slotNameContainer)
+        public void Start(GameObject[] slotsContainer, Text slotNameContainer, Button slotDropButton, Sprite itemIcon)
         {
             this.slotsContainer = slotsContainer;
             this.slotNameContainer = slotNameContainer;
-
-            print(slotsContainer.Length);
+            this.slotDropButton = slotDropButton;
+            this.itemIcon = itemIcon;
 
             for(int i = 0; i < slotsContainer.Length; i++)
             {
                 Button button = slotsContainer[i].GetComponent<Button>();
-                button.onClick.AddListener(delegate { OnButtonClick(button.gameObject); });
+                button.onClick.AddListener(delegate { OnInfoButtonClick(button.gameObject); });
             }
+
+            slotDropButton.onClick.AddListener(OnDropButtonClick);
         }
 
-        private void OnButtonClick(GameObject gameObject)
+        private void OnDropButtonClick()
         {
-           int id = Int32.Parse(gameObject.name);
-           slotNameContainer.text = slots[id - 1].itemName;
+            slotDropButton.gameObject.SetActive(false);
+            slotNameContainer.text = string.Empty;
+            selectedSlot.DropObject(Player.transform);
+            slots[selectedID] = new Slot();
+            slotsContainer[selectedID].GetComponent<Image>().sprite = itemIcon;
+            currentSlot--;
         }
 
-        private void test(string name)
+        private void OnInfoButtonClick(GameObject gameObject)
         {
-            print(name);
+            int id = Int32.Parse(gameObject.name);
+            if (slots[id - 1].itemPrefab == null)
+                return;
+
+            slotNameContainer.text = slots[id - 1].itemName;
+            slotDropButton.gameObject.SetActive(true);
+            selectedSlot = slots[id - 1];
+            selectedID = id - 1;
         }
 
-
-        public void AddSlot(Item item)
+        public bool AddSlot(Item item)
         {
             Slot slot = new Slot();
             slot.Initialize(item.itemPrefab, item.itemPicture, item.itemName);
 
-            if (currentSlot == 15)
-                return;
+            if (currentSlot > 15)
+                return false;
 
-            slots[currentSlot - 1] = slot;
-            slotsContainer[currentSlot - 1].GetComponent<Image>().sprite = item.itemPicture;
+            for (int i = 0; i < 15; i++)
+            {
+                if(slots[i].itemPrefab == null)
+                {
+                    slots[i] = slot;
+                    slotsContainer[i].GetComponent<Image>().sprite = item.itemPicture;
+                    break;
+                }
+            }
 
             currentSlot++;
+
+            return true;
         }
     }
 
     public static GameObject Player;
 
     [SerializeField] private GameObject[] slotsContainer;
-    [SerializeField] private GameObject slotNameContainer;
+    [SerializeField] private Text slotNameContainer;
+    [SerializeField] private Button slotDropButton;
+    [SerializeField] private Sprite itemIcon;
 
     private PlayerMovement movement = new PlayerMovement();
     private PlayerShoot shoot = new PlayerShoot();
@@ -206,7 +231,7 @@ public class PlayerController : MonoBehaviour
         Player = gameObject;
         movement.Start(this);
         shoot.Start(this);
-        inventory.Start(slotsContainer, slotNameContainer.GetComponent<Text>());
+        inventory.Start(slotsContainer, slotNameContainer, slotDropButton, itemIcon);
     }
 
     private void Update()
