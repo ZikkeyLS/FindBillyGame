@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
 
         private void Shoot()
         {
+            CameraController.Camera.GetComponent<CameraController>().shakeDuration = 0.1f;
             RaycastHit2D hit = Physics2D.Raycast(controller.transform.position, controller.transform.position + new Vector3(-controller.transform.localScale.x * distance, 0, 0), distance, LayerMask.GetMask("Enemy"));
             animator.SetTrigger("shoot");
 
@@ -218,6 +219,8 @@ public class PlayerController : MonoBehaviour
 
     public static GameObject Player;
 
+    public GameObject activeElement;
+
     [Header("Inventory")]
     [SerializeField] private GameObject[] slotsContainer;
     [SerializeField] private Text slotNameContainer;
@@ -246,6 +249,11 @@ public class PlayerController : MonoBehaviour
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
             Time.timeScale = inventoryMenu.activeSelf ? 0 : 1;
             needToUpdate = !inventoryMenu.activeSelf;
+            if(inventoryMenu.activeSelf) { activeElement = inventoryMenu; }
+        }
+        if(inventoryMenu.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        {
+            activeElement.SetActive(false);
         }
 
         if (needToUpdate)
@@ -253,6 +261,5 @@ public class PlayerController : MonoBehaviour
             movement.Update();
             shoot.Update();
         }
-
     }
 }
