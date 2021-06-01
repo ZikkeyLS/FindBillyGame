@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -85,29 +86,27 @@ public class PlayerController : MonoBehaviour
         private PlayerController controller;
         public Animator animator;
         public bool canShoot = true;
-        private float distance = 100f;
+        private GameObject bullet;
 
-        public void Start(PlayerController playerController)
+        public void Start(PlayerController playerController, GameObject bullet)
         {
             controller = playerController;
             animator = playerController.GetComponent<Animator>();
+            this.bullet = bullet;
         }
 
         private void Shoot()
         {
             CameraController.Camera.GetComponent<CameraController>().shakeDuration = 0.1f;
-            RaycastHit2D hit = Physics2D.Raycast(controller.transform.position, controller.transform.position + new Vector3(-controller.transform.localScale.x * distance, 0, 0), distance, LayerMask.GetMask("Enemy"));
             animator.SetTrigger("shoot");
 
-            if (hit.collider == null)
-                return;
-            Enemy enemy = hit.collider.GetComponent<Enemy>();
-            if (enemy != null)
-                enemy.GiveDamage(10);
+            GameObject currentBullet = Instantiate(bullet, controller.transform.position + new Vector3(-controller.transform.localScale.x * 1.25f, -0.45f), controller.transform.rotation);
+            currentBullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(-controller.transform.localScale.x * 5, 0), ForceMode2D.Impulse);
         }
 
         public void Update()
         {
+
             if (Input.GetKey(KeyCode.Mouse0) && canShoot)
             {
                 canShoot = false;
@@ -221,16 +220,21 @@ public class PlayerController : MonoBehaviour
 
     public GameObject activeElement;
 
+    /*
     [Header("Inventory")]
     [SerializeField] private GameObject[] slotsContainer;
     [SerializeField] private Text slotNameContainer;
     [SerializeField] private Button slotDropButton;
     [SerializeField] private Sprite itemIcon;
     [SerializeField] private GameObject inventoryMenu;
+    */
+
+    [Header("Shoot")]
+    [SerializeField] private GameObject bullet;
 
     private PlayerMovement movement = new PlayerMovement();
     private PlayerShoot shoot = new PlayerShoot();
-    public Inventory inventory = new Inventory();
+  //  public Inventory inventory = new Inventory();
 
     private bool needToUpdate = true;
 
@@ -238,12 +242,13 @@ public class PlayerController : MonoBehaviour
     {
         Player = gameObject;
         movement.Start(this);
-        shoot.Start(this);
-        inventory.Start(slotsContainer, slotNameContainer, slotDropButton, itemIcon);
+        shoot.Start(this, bullet);
+     //   inventory.Start(slotsContainer, slotNameContainer, slotDropButton, itemIcon);
     }
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.I))
         {
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
@@ -251,7 +256,8 @@ public class PlayerController : MonoBehaviour
             needToUpdate = !inventoryMenu.activeSelf;
             if(inventoryMenu.activeSelf) { activeElement = inventoryMenu; }
         }
-        if(inventoryMenu.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        */
+        if (activeElement != null && Input.GetKeyDown(KeyCode.Escape))
         {
             activeElement.SetActive(false);
         }

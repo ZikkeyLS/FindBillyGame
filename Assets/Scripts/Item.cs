@@ -18,8 +18,8 @@ public class Item : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.E) && Vector3.Distance(player.transform.position, transform.position) < 3)
         {
-            if (player.GetComponent<PlayerController>().inventory.AddSlot(this))
-                Destroy(gameObject);
+          //  if (player.GetComponent<PlayerController>().inventory.AddSlot(this))
+          //      Destroy(gameObject);
         }
     }
 }

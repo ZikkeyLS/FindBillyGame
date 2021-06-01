@@ -38,21 +38,14 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!follow)
-            return;
-
-        transform.position = Vector3.Lerp(new Vector3(player.position.x, player.position.y, transform.position.z), transform.position, Time.fixedDeltaTime * cameraSpeed) + cameraOffset;
+        if (follow) { transform.position = Vector3.Lerp(new Vector3(player.position.x, player.position.y, transform.position.z), transform.position, Time.fixedDeltaTime * cameraSpeed) + cameraOffset; }
 
         if (shakeDuration > 0)
         {
-
             transform.position += (Random.insideUnitSphere * shakeAmount) / stabilizator;
             shakeDuration -= Time.deltaTime;
         }
-        else
-        {
-            shakeDuration = 0f;
-        }
+        else { shakeDuration = 0f; }
     }
 
     public void SetFollowState(bool state)

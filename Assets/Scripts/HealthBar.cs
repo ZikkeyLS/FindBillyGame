@@ -15,6 +15,7 @@ public class HealthBar : MonoBehaviour
     private void LateUpdate()
     {
         string currentHealth = parent.GetHealth().ToString();
+       
         if (text.text == currentHealth)
             return;
         text.text = currentHealth;
