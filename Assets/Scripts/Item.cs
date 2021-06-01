@@ -16,10 +16,12 @@ public class Item : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Input.GetKey(KeyCode.E) && Vector3.Distance(player.transform.position, transform.position) < 3)
         {
-          //  if (player.GetComponent<PlayerController>().inventory.AddSlot(this))
-          //      Destroy(gameObject);
+            if (player.GetComponent<PlayerController>().inventory.AddSlot(this))
+                Destroy(gameObject);
         }
+        */
     }
 }

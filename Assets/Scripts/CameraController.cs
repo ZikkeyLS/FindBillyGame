@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
 
 
     private float lastScreenSize = -1;
-    private readonly float cameraModificator = 15;
+    private readonly float cameraModificator = 15f;
 
     public float shakeDuration = 0f;
     public float shakeAmount = 100f;
