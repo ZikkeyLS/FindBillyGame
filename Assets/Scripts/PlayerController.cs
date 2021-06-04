@@ -216,6 +216,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public class PlayerInformation
+    {
+        private GameObject gameObject;
+
+        public void Start(GameObject gameObject)
+        {
+            this.gameObject = gameObject;
+        }
+
+        private int health = 100;
+
+        public int GetHealth() => health;
+
+        public void SetHealth(int value) { health = value; OnHealthChanged(); }
+
+        public void GiveDamage(int value) { health -= value; OnHealthChanged(); }
+
+        private void OnHealthChanged()
+        {
+            if (GetHealth() == 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
     public static GameObject Player;
 
     public GameObject activeElement;
@@ -234,6 +260,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerMovement movement = new PlayerMovement();
     private PlayerShoot shoot = new PlayerShoot();
+    public PlayerInformation information = new PlayerInformation();
   //  public Inventory inventory = new Inventory();
 
     private bool needToUpdate = true;
@@ -243,6 +270,7 @@ public class PlayerController : MonoBehaviour
         Player = gameObject;
         movement.Start(this);
         shoot.Start(this, bullet);
+        information.Start(gameObject);
      //   inventory.Start(slotsContainer, slotNameContainer, slotDropButton, itemIcon);
     }
 
