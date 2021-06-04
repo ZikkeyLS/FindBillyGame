@@ -18,6 +18,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int damage = 25;
     [SerializeField] private float attackDelay = 2;
 
+    [Header("Animations")]
+    [SerializeField] Animator animationController;
+    private bool walking;
+
     private GameObject player;
     private PlayerController controller;
     private Rigidbody2D physics;
@@ -53,31 +57,30 @@ public class Enemy : MonoBehaviour
     private void CalculateMovement()
     {
         float direction =  invertable * (player.transform.position.x - transform.position.x) > 0 ? scale.x : -scale.x;
+
         transform.localScale = new Vector2(direction, transform.localScale.y);
         physics.velocity = new Vector2(direction / scale.x * movementSpeed, physics.velocity.y);
         
         if (lastPosition == new Vector3(0.000001f, 0.000001f, 0.000001f)) 
-        { 
+        {
             lastPosition = transform.position;
             StartCoroutine(OnMove());
         }
-        else
+        else if(invertable < 0)
         {
             RaycastHit2D raycast = Physics2D.Raycast(transform.position - new Vector3(0, 2f), -transform.up, 1);
-            if (raycast.transform != null && lastPosition.y != transform.position.y)
+            if (raycast.transform != null && (int)lastPosition.y != (int)transform.position.y)
             {
                 invertable *= -1;
                 lastPosition = new Vector3(0.000001f, 0.000001f, 0.000001f);
             }
-
-            Debug.DrawRay(transform.position - new Vector3(0, 1.75f), -transform.up, Color.white, 1);
         }
     }
 
     private IEnumerator OnMove()
     {
         yield return new WaitForSeconds(stupiedTime);
-        if(Vector3.Distance(transform.position, lastPosition) < 2) 
+        if(Vector3.Distance(transform.position, lastPosition) < stupiedTime * 2) 
         {
             invertable *= -1;
         }
@@ -100,13 +103,20 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         distance = Vector2.Distance(player.transform.position, transform.position);
-        if (distance > attackDistance)
+        if (distance > attackDistance && distance < eyeDistance)
         {
             CalculateMovement();
         }
-        else if(!attacking)
+        else
+        {
+            
+        }
+
+        if(!attacking && distance < attackDistance)
         {
             Attack();
         }
+
+      
     }
 }
