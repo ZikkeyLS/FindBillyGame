@@ -240,6 +240,36 @@ public class PlayerController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        private int experience = 0;
+        private int needableExpirience = 100;
+        private int level = 0;
+
+        public int GetExperience() => experience;
+        public int GetNeedableExperience() => needableExpirience;
+
+        public float GetExperienceRatio()
+        {
+            return (float)experience / (float)needableExpirience;
+        }
+
+        private void OnGiveExperience()
+        {
+            while(experience >= needableExpirience)
+            {
+                experience -= needableExpirience;
+                level++;
+                // float newNeedableExperience = (float)needableExpirience + 100;
+                // needableExpirience = (int)newNeedableExperience;
+                needableExpirience += 100;
+            }
+        }
+
+        public void GiveExperience(int amount)
+        {
+            experience += amount;
+            OnGiveExperience();
+        }
     }
 
     public static GameObject Player;

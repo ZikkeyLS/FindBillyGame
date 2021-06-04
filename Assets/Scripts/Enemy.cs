@@ -20,7 +20,6 @@ public class Enemy : MonoBehaviour
 
     [Header("Animations")]
     [SerializeField] Animator animationController;
-    private bool walking;
 
     private GameObject player;
     private PlayerController controller;
@@ -58,8 +57,10 @@ public class Enemy : MonoBehaviour
     {
         float direction =  invertable * (player.transform.position.x - transform.position.x) > 0 ? scale.x : -scale.x;
 
+
         transform.localScale = new Vector2(direction, transform.localScale.y);
         physics.velocity = new Vector2(direction / scale.x * movementSpeed, physics.velocity.y);
+
         
         if (lastPosition == new Vector3(0.000001f, 0.000001f, 0.000001f)) 
         {
@@ -68,8 +69,9 @@ public class Enemy : MonoBehaviour
         }
         else if(invertable < 0)
         {
+
             RaycastHit2D raycast = Physics2D.Raycast(transform.position - new Vector3(0, 2f), -transform.up, 1);
-            if (raycast.transform != null && (int)lastPosition.y != (int)transform.position.y)
+            if (raycast.transform != null && (int)lastPosition.y != (int)transform.position.y && (int)lastPosition.x != (int)transform.position.x)
             {
                 invertable *= -1;
                 lastPosition = new Vector3(0.000001f, 0.000001f, 0.000001f);
@@ -105,18 +107,18 @@ public class Enemy : MonoBehaviour
         distance = Vector2.Distance(player.transform.position, transform.position);
         if (distance > attackDistance && distance < eyeDistance)
         {
+            animationController.SetBool("Walk", true);
             CalculateMovement();
         }
-        else
+        if(distance > eyeDistance)
         {
-            
+            animationController.SetBool("Walk", false);
         }
 
         if(!attacking && distance < attackDistance)
         {
             Attack();
+            animationController.SetTrigger("Attack");
         }
-
-      
     }
 }
