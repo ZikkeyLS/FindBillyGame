@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +11,7 @@ public class PlayerController : MonoBehaviour
         private bool canJump = true;
 
         private float speed = 5;
-        private float jumpHeight = 175;
+        private float jumpHeight = 500;
 
         private Animator animator;
         private Rigidbody2D physics = new Rigidbody2D();
@@ -20,7 +19,9 @@ public class PlayerController : MonoBehaviour
         private Transform transform;
         private LayerMask jumpLayers;
 
-        private void SetScale(int x)
+        private Vector2 scale;
+
+        private void SetScale(float x)
         {
             physics.transform.localScale = new Vector2(x, physics.transform.localScale.y);
         }
@@ -40,14 +41,14 @@ public class PlayerController : MonoBehaviour
 
             if (movement)
             {
-                int scaleX = (movementSpeed > 0) ? -1 : 1;
+                float scaleX = (movementSpeed > 0) ?  scale.x : -1 * scale.x;
                 SetScale(scaleX);
             }
             animator.SetBool("walking", movement);
         }
         private void Jump()
         {
-            grounded = Physics2D.OverlapCircle(transform.position + new Vector3(0.25f, -1.5f, 0), 0.75f, jumpLayers) != null;
+            grounded = Physics2D.OverlapCircle(transform.position + new Vector3(0.25f, -1.5f * Mathf.Abs(scale.x), 0), 0.75f, jumpLayers) != null;
 
             if (canJump && grounded && Input.GetKeyDown(KeyCode.Space))
             {
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
             transform = physics.transform;
             controller = playerController;
             jumpLayers = LayerMask.GetMask("Ground");
+            scale = transform.localScale;
         }
 
         public void Update()
@@ -235,7 +237,7 @@ public class PlayerController : MonoBehaviour
 
         private void OnHealthChanged()
         {
-            if (GetHealth() == 0)
+            if (GetHealth() <= 0)
             {
                 Destroy(gameObject);
             }
@@ -259,9 +261,8 @@ public class PlayerController : MonoBehaviour
             {
                 experience -= needableExpirience;
                 level++;
-                // float newNeedableExperience = (float)needableExpirience + 100;
-                // needableExpirience = (int)newNeedableExperience;
-                needableExpirience += 100;
+                float newNeedableExperience = (float)needableExpirience + (float)needableExpirience * 0.2f;
+                needableExpirience = (int)newNeedableExperience;
             }
         }
 

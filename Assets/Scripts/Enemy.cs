@@ -55,11 +55,11 @@ public class Enemy : MonoBehaviour
 
     private void CalculateMovement()
     {
-        float direction =  invertable * (player.transform.position.x - transform.position.x) > 0 ? scale.x : -scale.x;
+        float direction =  invertable * (player.transform.position.x - transform.position.x) > 0 ? -scale.x : scale.x;
 
 
         transform.localScale = new Vector2(direction, transform.localScale.y);
-        physics.velocity = new Vector2(direction / scale.x * movementSpeed, physics.velocity.y);
+        physics.velocity = new Vector2(-direction / scale.x * movementSpeed, physics.velocity.y);
 
         
         if (lastPosition == new Vector3(0.000001f, 0.000001f, 0.000001f)) 
