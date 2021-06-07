@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerHealthBar.cs" />
     <Compile Include="Assets\Scripts\PlayerExperienceBar.cs" />
+    <Compile Include="Assets\Trap.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

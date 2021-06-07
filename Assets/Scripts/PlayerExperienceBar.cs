@@ -4,17 +4,17 @@ using static PlayerController;
 
 public class PlayerExperienceBar : MonoBehaviour
 {
-    [SerializeField] Text experienceText;
+    private Image image;
     private PlayerInformation information;
 
     void Start()
     {
         information = PlayerController.Player.GetComponent<PlayerController>().information;
+        image = GetComponent<Image>();
         information.GiveExperience(100);
     }
     void Update()
     {
-        transform.localScale = new Vector2(information.GetExperienceRatio(), transform.localScale.y);
-        experienceText.text = information.GetExperience() + "/" + information.GetNeedableExperience();
+        image.fillAmount = (information.GetExperienceRatio() + image.fillAmount) / 2;
     }
 }

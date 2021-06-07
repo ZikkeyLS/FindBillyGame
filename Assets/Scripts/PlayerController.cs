@@ -277,22 +277,12 @@ public class PlayerController : MonoBehaviour
 
     public GameObject activeElement;
 
-    /*
-    [Header("Inventory")]
-    [SerializeField] private GameObject[] slotsContainer;
-    [SerializeField] private Text slotNameContainer;
-    [SerializeField] private Button slotDropButton;
-    [SerializeField] private Sprite itemIcon;
-    [SerializeField] private GameObject inventoryMenu;
-    */
-
     [Header("Shoot")]
     [SerializeField] private GameObject bullet;
 
     private PlayerMovement movement = new PlayerMovement();
     private PlayerShoot shoot = new PlayerShoot();
     public PlayerInformation information = new PlayerInformation();
-  //  public Inventory inventory = new Inventory();
 
     private bool needToUpdate = true;
 
@@ -302,20 +292,11 @@ public class PlayerController : MonoBehaviour
         movement.Start(this);
         shoot.Start(this, bullet);
         information.Start(gameObject);
-     //   inventory.Start(slotsContainer, slotNameContainer, slotDropButton, itemIcon);
     }
 
     private void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            inventoryMenu.SetActive(!inventoryMenu.activeSelf);
-            Time.timeScale = inventoryMenu.activeSelf ? 0 : 1;
-            needToUpdate = !inventoryMenu.activeSelf;
-            if(inventoryMenu.activeSelf) { activeElement = inventoryMenu; }
-        }
-        */
+
         if (activeElement != null && Input.GetKeyDown(KeyCode.Escape))
         {
             activeElement.SetActive(false);

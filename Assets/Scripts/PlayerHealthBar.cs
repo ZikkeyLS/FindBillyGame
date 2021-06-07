@@ -4,16 +4,16 @@ using static PlayerController;
 
 public class PlayerHealthBar : MonoBehaviour
 {
-    [SerializeField] Text healthText;
+    private Image image;
     private PlayerInformation information;
 
     void Start()
     {
         information = PlayerController.Player.GetComponent<PlayerController>().information;
+        image = GetComponent<Image>();
     }
     void Update()
     {
-        transform.localScale = new Vector2((float)information.GetHealth() / 100, transform.localScale.y);
-        healthText.text = information.GetHealth() + "/100";
+        image.fillAmount = (((float)information.GetHealth() / 100f) + image.fillAmount) / 2;
     }
 }
