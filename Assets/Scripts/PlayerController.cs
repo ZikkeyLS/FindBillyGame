@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     {
         private bool grounded = false;
         private bool canJump = true;
+        private bool canStare = false;
+        private bool stareCore =  true;
 
         private float speed = 5;
         private float jumpHeight = 500;
@@ -41,11 +43,38 @@ public class PlayerController : MonoBehaviour
 
             if (movement)
             {
-                float scaleX = (movementSpeed > 0) ?  scale.x : -1 * scale.x;
+                float scaleX = (movementSpeed > 0) ?  scale.x : -scale.x;
                 SetScale(scaleX);
             }
+            if (!canStare && stareCore) controller.StartCoroutine(StareDelay());
+
+            if(canStare && !movement)
+            {
+                print("1");
+                animator.SetTrigger("stare");
+                canStare = false;
+            }
+
             animator.SetBool("walking", movement);
         }
+
+        IEnumerator StareDelay()
+        {
+            stareCore = false;
+
+            yield return new WaitForSeconds(7f);
+            if (animator.playableGraph.GetEditorName() != "StaticAnimation")
+            {
+                controller.StartCoroutine(StareDelay());
+            }
+            else
+            {
+                canStare = true;
+            }
+
+            stareCore = true;
+        }
+
         private void Jump()
         {
             grounded = Physics2D.OverlapCircle(transform.position + new Vector3(0.25f, -1.5f * Mathf.Abs(scale.x), 0), 0.75f, jumpLayers) != null;
@@ -77,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
         public IEnumerator waitToUpdateJump()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
             canJump = true;
 
         }
@@ -99,10 +128,10 @@ public class PlayerController : MonoBehaviour
 
         private void Shoot()
         {
-            CameraController.Camera.GetComponent<CameraController>().shakeDuration = 0.1f;
+            CameraController.Camera.GetComponent<CameraController>().OnAttack();
             animator.SetTrigger("shoot");
 
-            GameObject currentBullet = Instantiate(bullet, controller.transform.position + new Vector3(-controller.transform.localScale.x * 1.25f, -0.45f), controller.transform.rotation);
+            GameObject currentBullet = Instantiate(bullet, controller.transform.position + new Vector3(-controller.transform.localScale.x * 1.25f, -0.6f), controller.transform.rotation);
             currentBullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(-controller.transform.localScale.x * 5, 0), ForceMode2D.Impulse);
         }
 

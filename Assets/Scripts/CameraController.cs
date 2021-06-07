@@ -12,10 +12,10 @@ public class CameraController : MonoBehaviour
 
 
     private float lastScreenSize = -1;
-    private readonly float cameraModificator = 15f;
+    private readonly float cameraModificator = 18f;
 
     public float shakeDuration = 0f;
-    public float shakeAmount = 100f;
+    public float shakeAmount = 0.7f;
     public float stabilizator = 10f;
 
 
@@ -46,6 +46,18 @@ public class CameraController : MonoBehaviour
             shakeDuration -= Time.deltaTime;
         }
         else { shakeDuration = 0f; }
+    }
+
+    public void OnAttack()
+    {
+        shakeDuration = 0.1f;
+        shakeAmount = 0.7f;
+    }
+
+    public void OnHitted()
+    {
+        shakeDuration = 0.2f;
+        shakeAmount = 1.25f;
     }
 
     public void SetFollowState(bool state)

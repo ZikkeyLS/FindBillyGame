@@ -92,7 +92,7 @@ public class Enemy : MonoBehaviour
     {
         attacking = true;
         controller.information.GiveDamage(damage);
-        print("Hit. Player have: " + controller.information.GetHealth());
+        CameraController.Camera.GetComponent<CameraController>().OnHitted();
         StartCoroutine(AttackDelay());
     }
 
