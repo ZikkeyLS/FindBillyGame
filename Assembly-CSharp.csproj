@@ -56,16 +56,20 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\HealthBar.cs" />
-    <Compile Include="Assets\Scripts\Trap.cs" />
-    <Compile Include="Assets\Scripts\BulletDamage.cs" />
-    <Compile Include="Assets\Scripts\Item.cs" />
-    <Compile Include="Assets\Scripts\CameraShake.cs" />
-    <Compile Include="Assets\Scripts\CameraController.cs" />
-    <Compile Include="Assets\Scripts\Enemy.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\PlayerHealthBar.cs" />
-    <Compile Include="Assets\Scripts\PlayerExperienceBar.cs" />
+    <Compile Include="Assets\Scripts\Enemy\HealthBar.cs" />
+    <Compile Include="Assets\Scripts\Enemy\Trap.cs" />
+    <Compile Include="Assets\Scripts\Player\BulletDamage.cs" />
+    <Compile Include="Assets\Scripts\Broken\Item.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraShake.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerUI.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerHealthBar.cs" />
+    <Compile Include="Assets\Scripts\Other\JumpBox.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerExperienceBar.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerShoot.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerInformation.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
