@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
 
     private void OnHealthChanged()
     {
-        if(health == 0)
+        if(health <= 0)
         {
             Destroy(gameObject);
         }

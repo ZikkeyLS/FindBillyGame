@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
         public IEnumerator waitToUpdateJump()
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(0.75f);
             canJump = true;
 
         }
@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
 
         IEnumerator sprayTime()
         {
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.35f);
             canShoot = true;
         }
     }
