@@ -3,17 +3,18 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float speed = 5;
+    [SerializeField] private float jumpHeight = 5;
+    [SerializeField] private float jumpDelay = 0.75f;
+
     private bool grounded = false;
-    private bool canJump = true;
-    private bool canStare = false;
+    [SerializeField] private bool canJump = true;
+    [SerializeField] private bool canStare = false;
     private bool stareCore = true;
 
-    private float speed = 5;
-    private float jumpHeight = 500;
-
     private Animator animator;
-    private Rigidbody2D physics = new Rigidbody2D();
-    private LayerMask jumpLayers;
+    private Rigidbody2D physics;
+    [SerializeField] private LayerMask jumpLayers;
 
     private Vector2 scale;
 
@@ -44,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (canStare && !movement)
         {
-            print("1");
             animator.SetTrigger("stare");
             canStare = false;
         }
@@ -57,16 +57,48 @@ public class PlayerMovement : MonoBehaviour
         stareCore = false;
 
         yield return new WaitForSeconds(7f);
-        if (animator.playableGraph.GetEditorName() != "StaticAnimation")
+
+        string animationName = "";
+
+        foreach (var clipInfo in animator.GetCurrentAnimatorClipInfo(0))
+        {
+            animationName = clipInfo.clip.name;
+        }
+
+        if (animationName != "StaticAnimation")
         {
             StartCoroutine(StareDelay());
         }
-        else
-        {
-            canStare = true;
-        }
 
+        canStare = true;
         stareCore = true;
+    }
+
+    private void BoxJump()
+    {
+        RaycastHit2D raycast = Physics2D.Raycast(transform.position - new Vector3(0.1f, 2.5f), -transform.up, 1);
+        if (raycast.collider == null)
+            return;
+
+        JumpBox box = raycast.collider.GetComponent<JumpBox>();
+
+        if (box != null)
+        {
+            if (!box.canJump)
+                return;
+
+
+            physics.AddForce(-transform.localScale.x * Vector2.right * jumpHeight * physics.mass * box.effectPower);
+           // physics.AddForce(Vector2.up * jumpHeight * physics.mass * box.effectPower);
+
+            box.OnJump();
+        }
+    }
+
+    public IEnumerator waitToUpdateJump()
+    {
+        yield return new WaitForSeconds(jumpDelay);
+        canJump = true;
     }
 
     private void Jump()
@@ -75,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (canJump && grounded && Input.GetKeyDown(KeyCode.Space))
         {
-            physics.AddForce(Vector2.up * jumpHeight);
+            physics.AddForce(Vector2.up * jumpHeight * physics.mass * 100);
             canJump = false;
             animator.SetTrigger("jump");
             StartCoroutine(waitToUpdateJump());
@@ -86,7 +118,6 @@ public class PlayerMovement : MonoBehaviour
     {
         physics = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        jumpLayers = LayerMask.GetMask("Ground");
         scale = transform.localScale;
     }
 
@@ -94,12 +125,6 @@ public class PlayerMovement : MonoBehaviour
     {
         Move();
         Jump();
-    }
-
-    public IEnumerator waitToUpdateJump()
-    {
-        yield return new WaitForSeconds(0.75f);
-        canJump = true;
-
+        BoxJump();
     }
 }

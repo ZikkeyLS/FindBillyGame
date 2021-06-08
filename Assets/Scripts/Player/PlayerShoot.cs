@@ -6,6 +6,7 @@ public class PlayerShoot : MonoBehaviour
     private Animator animator;
     [SerializeField] private bool canShoot = true;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private float shootDelay = 0.35f;
 
     public void Start()
     {
@@ -35,7 +36,7 @@ public class PlayerShoot : MonoBehaviour
 
     IEnumerator sprayTime()
     {
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(shootDelay);
         canShoot = true;
     }
 }

@@ -69,7 +69,6 @@ public class Enemy : MonoBehaviour
         }
         else if(invertable < 0)
         {
-
             RaycastHit2D raycast = Physics2D.Raycast(transform.position - new Vector3(0, 2f), -transform.up, 1);
             if (raycast.transform != null && (int)lastPosition.y != (int)transform.position.y && (int)lastPosition.x != (int)transform.position.x)
             {

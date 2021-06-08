@@ -7,14 +7,19 @@ public class JumpBox : MonoBehaviour
     private Animator animator;
     private Rigidbody2D physics;
     private Vector3 startVector = Vector3.zero;
-    private float walkingDistance = 3;
+    [SerializeField] private float walkingDistance = 3;
     [SerializeField] private float speed = 2.5f;
+    [SerializeField] private float speedDelay = 0.25f;
+    public bool canJump = true;
+    public float effectPower = 50;
+    private float constSpeed;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         physics = GetComponent<Rigidbody2D>();
         startVector = transform.position;
+        constSpeed = speed;
     }
 
     private void Move()
@@ -28,9 +33,23 @@ public class JumpBox : MonoBehaviour
         }
     }
 
+    IEnumerator StopDelay()
+    {
+        canJump = false;
+        speed = 0;
+        yield return new WaitForSeconds(speedDelay);
+        speed = constSpeed;
+        canJump = true;
+    }
+
+    public void OnJump()
+    {
+        animator.SetTrigger("jump");
+        StartCoroutine(StopDelay());
+    }
+
     void Update()
     {
         Move();
-
     }
 }

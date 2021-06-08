@@ -11,7 +11,7 @@ public class PlayerInformation : MonoBehaviour
         information = gameObject.GetComponent<PlayerInformation>();
     }
 
-    private int health = 100;
+    [SerializeField] private int health = 100;
 
     public int GetHealth() => health;
 
@@ -27,9 +27,9 @@ public class PlayerInformation : MonoBehaviour
         }
     }
 
-    private int experience = 0;
-    private int needableExpirience = 100;
-    private int level = 0;
+    [SerializeField] private int experience = 0;
+    [SerializeField] private int needableExpirience = 100;
+    [SerializeField] private int level = 0;
 
     public int GetExperience() => experience;
 

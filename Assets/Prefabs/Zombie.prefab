@@ -394,7 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c74148ed1539a4bb48f8501391d835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eyeDistance: 16
+  eyeDistance: 18
   movementSpeed: 2.7
   stupiedTime: 0.5
   health: 100
