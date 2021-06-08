@@ -87,9 +87,7 @@ public class PlayerMovement : MonoBehaviour
             if (!box.canJump)
                 return;
 
-
-            physics.AddForce(-transform.localScale.x * Vector2.right * jumpHeight * physics.mass * box.effectPower);
-           // physics.AddForce(Vector2.up * jumpHeight * physics.mass * box.effectPower);
+            physics.AddForce(Vector2.up * jumpHeight * physics.mass * box.effectPower);
 
             box.OnJump();
         }

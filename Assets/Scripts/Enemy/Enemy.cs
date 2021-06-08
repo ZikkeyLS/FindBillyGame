@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Parametres")]
     [SerializeField] private int health = 100;
+    [SerializeField] private int experience = 25;
 
     [Header("Attack")]
     [SerializeField] private int attackDistance = 5;
@@ -40,6 +41,7 @@ public class Enemy : MonoBehaviour
     {
         if(health <= 0)
         {
+            playerInformation.GiveExperience(experience);
             Destroy(gameObject);
         }
     }

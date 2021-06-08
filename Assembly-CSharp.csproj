@@ -59,17 +59,18 @@
     <Compile Include="Assets\Scripts\Enemy\HealthBar.cs" />
     <Compile Include="Assets\Scripts\Enemy\Trap.cs" />
     <Compile Include="Assets\Scripts\Player\BulletDamage.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerShoot.cs" />
     <Compile Include="Assets\Scripts\Broken\Item.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraShake.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerInformation.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerUI.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerHealthBar.cs" />
     <Compile Include="Assets\Scripts\Other\JumpBox.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerExperienceBar.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerShoot.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerInformation.cs" />
+    <Compile Include="Assets\Inventory.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
