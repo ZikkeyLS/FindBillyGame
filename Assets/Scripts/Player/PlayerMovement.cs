@@ -58,20 +58,18 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(7f);
 
-        string animationName = "";
-
-        foreach (var clipInfo in animator.GetCurrentAnimatorClipInfo(0))
-        {
-            animationName = clipInfo.clip.name;
-        }
+        string animationName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
         if (animationName != "StaticAnimation")
         {
             StartCoroutine(StareDelay());
         }
+        else
+        {
+            canStare = true;
+            stareCore = true;
+        }
 
-        canStare = true;
-        stareCore = true;
     }
 
     private void BoxJump()

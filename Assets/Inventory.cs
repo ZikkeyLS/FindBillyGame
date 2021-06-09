@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
@@ -10,12 +8,14 @@ public class Inventory : MonoBehaviour
         public string name { get; private set; }
         public Text text;
         public int amount;
+        public bool available;
 
         public PotionType(string name, Text text, int amount)
         {
             this.name = name;
             this.text = text;
             this.amount = amount;
+            available = amount > 0;   
         }
 
         public PotionType(string name, Text text)
@@ -23,6 +23,26 @@ public class Inventory : MonoBehaviour
             this.name = name;
             this.text = text;
             amount = 0;
+            available = false;
+        }
+
+
+        public void AddPotion()
+        {
+            amount += 1;
+            OnAmountChanged();
+        }
+
+        public void RemovePotion()
+        {
+            if(amount > 0) amount -= 1;
+            if (amount == 0) available = false;
+            OnAmountChanged();
+        }
+
+        private void OnAmountChanged()
+        {
+            text.text = amount.ToString();
         }
     }
 
@@ -32,7 +52,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Text shieldText;
 
     public PotionType currentPotion = new PotionType();
-    private int currentPotionID = -1;
+    private int currentPotionID = 0;
 
     public PotionType[] potions = new PotionType[4];
 
@@ -47,6 +67,19 @@ public class Inventory : MonoBehaviour
         };
     }
 
+    private void SelectPotion(int id, float a)
+    {
+        Image image = potions[id].text.GetComponentInParent<Image>();
+        Color color = image.color;
+        image.color = new Color(color.r, color.g, color.b, a);
+    }
+
+    private void Start()
+    {
+        SelectPotion(currentPotionID, 1);
+        currentPotion = potions[currentPotionID];
+    }
+
     public void Update()
     {
         float mw = Input.GetAxis("Mouse ScrollWheel");
@@ -56,9 +89,7 @@ public class Inventory : MonoBehaviour
             currentPotionID += 1;
             if (currentPotionID > potions.Length - 1) currentPotionID = 0;
 
-            Image image = potions[currentPotionID].text.GetComponentInParent<Image>();
-            Color color = image.color;
-            image.color = new Color(color.r, color.g, color.b, 255);
+            SelectPotion(currentPotionID, 1);
             currentPotion = potions[currentPotionID];
         }
         if(mw < -0.05f)
@@ -66,9 +97,7 @@ public class Inventory : MonoBehaviour
             currentPotionID -= 1;
             if (currentPotionID < 0) currentPotionID = potions.Length - 1;
 
-            Image image = potions[currentPotionID].text.GetComponentInParent<Image>();
-            Color color = image.color;
-            image.color = new Color(color.r, color.g, color.b, 255);
+            SelectPotion(currentPotionID, 1);
             currentPotion = potions[currentPotionID];
         }
 
@@ -76,9 +105,7 @@ public class Inventory : MonoBehaviour
         {
             if(potions[i].name != currentPotion.name)
             {
-                Image image = potions[i].text.GetComponentInParent<Image>();
-                Color color = image.color;
-                image.color = new Color(color.r, color.g, color.b, 0.372f);
+                SelectPotion(i, 0.372f);
             }
         }
     }

@@ -10,7 +10,6 @@ public class PlayerExperienceBar : MonoBehaviour
     {
         information = PlayerInformation.Player.GetComponent<PlayerInformation>();
         image = GetComponent<Image>();
-        information.GiveExperience(100);
     }
     void Update()
     {
