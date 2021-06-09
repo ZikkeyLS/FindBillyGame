@@ -38,6 +38,8 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!player)
+            return;
         if (follow) { transform.position = Vector3.Lerp(new Vector3(player.position.x, player.position.y, transform.position.z), transform.position, Time.fixedDeltaTime * cameraSpeed) + cameraOffset; }
 
         if (shakeDuration > 0)

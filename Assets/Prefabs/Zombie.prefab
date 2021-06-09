@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8619478315044949174}
   - component: {fileID: 8619478315044949169}
   - component: {fileID: 8619478315044949168}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 8619478315501096844}
   - component: {fileID: 8619478315501096847}
   - component: {fileID: 8619478315501096846}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 8619478315995663864}
   - component: {fileID: 8619478315995663868}
   - component: {fileID: 8619478315995663869}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,10 +398,14 @@ MonoBehaviour:
   movementSpeed: 2.7
   stupiedTime: 0.5
   health: 100
+  experience: 25
   attackDistance: 4
   damage: 15
   attackDelay: 3
   animationController: {fileID: 8619478315995663869}
+  component: {fileID: 8063373067716606272, guid: 9817f0119ce37b149938f63520c1eb8b, type: 3}
+  minComponents: 2
+  maxComponents: 5
 --- !u!95 &8619478315995663869
 Animator:
   serializedVersion: 3
@@ -430,7 +434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8619478316217559710}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}

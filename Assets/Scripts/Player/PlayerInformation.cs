@@ -58,5 +58,14 @@ public class PlayerInformation : MonoBehaviour
         experience += amount;
         OnGiveExperience();
     }
+
+    [SerializeField] private int components = 0;
+
+    public int GetComponents() => components;
+
+    public void GiveComponents(int amount)
+    {
+        components += amount;
+    }
 }
 

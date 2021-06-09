@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed = 5;
+    public float speed = 5;
     [SerializeField] private float jumpHeight = 5;
     [SerializeField] private float jumpDelay = 0.75f;
 
@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool canJump = true;
     [SerializeField] private bool canStare = false;
     private bool stareCore = true;
+
+    public bool movementEnabled = true;
 
     private Animator animator;
     private Rigidbody2D physics;
@@ -119,6 +121,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void Update()
     {
+
+        if (!movementEnabled)
+        {
+            if(physics.velocity.x != 0) { physics.velocity = Vector2.zero; }
+            return;
+        }
+
+
         Move();
         Jump();
         BoxJump();

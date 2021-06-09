@@ -22,6 +22,11 @@ public class Enemy : MonoBehaviour
     [Header("Animations")]
     [SerializeField] Animator animationController;
 
+    [Header("OnDeath")]
+    [SerializeField] GameObject component;
+    [SerializeField] int minComponents = 2;
+    [SerializeField] int maxComponents = 4;
+
     private GameObject player;
     private PlayerInformation playerInformation;
     private Rigidbody2D physics;
@@ -42,6 +47,12 @@ public class Enemy : MonoBehaviour
         if(health <= 0)
         {
             playerInformation.GiveExperience(experience);
+
+            for (int i = 0; i < Random.Range(minComponents, maxComponents); i++)
+            {
+                Instantiate(component, transform.position + new Vector3(Random.Range(-1, 2), 0, 0), Quaternion.identity);
+            }
+   
             Destroy(gameObject);
         }
     }
@@ -105,6 +116,9 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        if (!player)
+            return;
+
         distance = Vector2.Distance(player.transform.position, transform.position);
         if (distance > attackDistance && distance < eyeDistance)
         {

@@ -8,6 +8,8 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private GameObject bullet;
     [SerializeField] private float shootDelay = 0.35f;
 
+    public bool shootEnabled = true;
+
     public void Start()
     {
         animator = GetComponent<Animator>();
@@ -24,6 +26,8 @@ public class PlayerShoot : MonoBehaviour
 
     public void Update()
     {
+        if (!shootEnabled)
+            return;
 
         if (Input.GetKey(KeyCode.Mouse0) && canShoot)
         {
