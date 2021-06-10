@@ -4,7 +4,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5;
+    private float constSpeed = 0;
+    [SerializeField] private float speedModificator = 1.5f;
     [SerializeField] private float jumpHeight = 5;
+    private float constJumpHeight = 0;
+    [SerializeField] private float jumpHeightModificator = 1.5f;
     [SerializeField] private float jumpDelay = 0.75f;
 
     private bool grounded = false;
@@ -110,6 +114,32 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("jump");
             StartCoroutine(waitToUpdateJump());
         }
+    }
+
+    private IEnumerator WaitSpeedPotion()
+    {
+        yield return new WaitForSeconds(10);
+        speed = constSpeed;
+    }
+
+    public void OnStaminaPotion()
+    {
+        constSpeed = speed;
+        speed *= speedModificator;
+        StartCoroutine(WaitSpeedPotion());
+    }
+
+    private IEnumerator WaitJumpPotion()
+    {
+        yield return new WaitForSeconds(10);
+        jumpHeight = constJumpHeight;
+    }
+
+    public void OnJumpPotion()
+    {
+        constJumpHeight = jumpHeight;
+        jumpHeight *= jumpHeightModificator;
+        StartCoroutine(WaitJumpPotion());
     }
 
     public void Start()
