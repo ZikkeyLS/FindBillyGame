@@ -20,6 +20,7 @@ public class Cauldron : MonoBehaviour
 
         bool canContact = Vector3.Distance(transform.position, player.transform.position) < contactDistance;
         if(text.activeSelf != canContact) text.SetActive(canContact);
+        if (canContact) PlayerUI.canContact = true;
         if (canContact && Input.GetKeyDown(KeyCode.E))
         {
             ui.OpenCraftTable();

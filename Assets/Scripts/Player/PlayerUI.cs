@@ -4,6 +4,7 @@ using static Inventory;
 
 public class PlayerUI : MonoBehaviour
 {
+    public static bool canContact;
     public GameObject activeElement;
 
     [SerializeField] GameObject craftTable;
@@ -13,11 +14,9 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Text healthStatus;
     [SerializeField] private Text staminaStatus;
     [SerializeField] private Text jumpStatus;
-    [SerializeField] private Text shieldStatus;
     [SerializeField] private Button healthButton;
     [SerializeField] private Button staminaButton;
     [SerializeField] private Button jumpButton;
-    [SerializeField] private Button shieldButton;
     private PotionType[] potions;
 
     public void AddHealthPotion()
@@ -74,16 +73,15 @@ public class PlayerUI : MonoBehaviour
 
     private void Update()
     {
+        if (canContact) canContact = false;
         ChangePotionInformationText(1, healthStatus);
         ChangePotionInformationText(0, staminaStatus);
         ChangePotionInformationText(2, jumpStatus);
-        ChangePotionInformationText(3, shieldStatus);
 
         int components = information.GetComponents();
         ChangeButtonState(potions[1].cost, components, healthButton);
         ChangeButtonState(potions[0].cost, components, staminaButton);
         ChangeButtonState(potions[2].cost, components, jumpButton);
-        ChangeButtonState(potions[3].cost, components, shieldButton);
 
         if (activeElement != null && Input.GetKeyDown(KeyCode.Escape))
         {

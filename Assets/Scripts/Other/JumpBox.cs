@@ -35,11 +35,9 @@ public class JumpBox : MonoBehaviour
 
     IEnumerator StopDelay()
     {
-        canJump = false;
         speed = 0;
         yield return new WaitForSeconds(speedDelay);
         speed = constSpeed;
-        canJump = true;
     }
 
     public void OnJump()

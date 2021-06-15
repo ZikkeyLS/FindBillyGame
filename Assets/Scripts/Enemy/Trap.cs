@@ -21,6 +21,7 @@ public class Trap : MonoBehaviour
             }
             if (playerInformation != null)
             {
+                playerInformation.GetComponent<PlayerMovement>().speed /= 2;
                 StartCoroutine(AttackPlayer(playerInformation));
             }
         } 

@@ -348,7 +348,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.036027312}
+  m_Offset: {x: 0, y: -0.033907294}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -359,7 +359,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.64, y: 2.4579453}
+  m_Size: {x: 1.64, y: 2.5631135}
   m_EdgeRadius: 0
 --- !u!50 &8619478315995663864
 Rigidbody2D:
@@ -399,10 +399,12 @@ MonoBehaviour:
   stupiedTime: 0.5
   health: 100
   experience: 25
+  enemyName: Zombie
   attackDistance: 4
   damage: 15
   attackDelay: 3
   animationController: {fileID: 8619478315995663869}
+  attackAnimation: {fileID: 0}
   component: {fileID: 8063373067716606272, guid: 9817f0119ce37b149938f63520c1eb8b, type: 3}
   minComponents: 2
   maxComponents: 5

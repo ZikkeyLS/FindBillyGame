@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
             if (!box.canJump)
                 return;
 
-            physics.AddForce(Vector2.up * jumpHeight * physics.mass * box.effectPower);
+            physics.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
 
             box.OnJump();
         }

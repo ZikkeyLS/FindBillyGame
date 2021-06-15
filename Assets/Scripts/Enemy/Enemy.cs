@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [Header("Parametres")]
     [SerializeField] private int health = 100;
     [SerializeField] private int experience = 25;
+    [SerializeField] private string enemyName = string.Empty;
 
     [Header("Attack")]
     [SerializeField] private int attackDistance = 5;
@@ -32,8 +33,11 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D physics;
     private float distance = 0;
     private Vector2 scale = Vector2.zero;
+    private Vector2 boxColliderSize;
+    private BoxCollider2D boxCollider;
 
     private bool attacking = false;
+    private bool sized = true;
    
 
     public int GetHealth() => health;
@@ -64,6 +68,12 @@ public class Enemy : MonoBehaviour
         playerInformation = player.GetComponent<PlayerInformation>();
 
         scale = transform.localScale;
+
+        if (enemyName == "Zombie")
+        {
+            boxCollider = GetComponent<BoxCollider2D>();
+            boxColliderSize = boxCollider.size;
+        }
     }
 
     private void CalculateMovement()
@@ -73,6 +83,18 @@ public class Enemy : MonoBehaviour
 
         transform.localScale = new Vector2(direction, transform.localScale.y);
         physics.velocity = new Vector2(-direction / scale.x * movementSpeed, physics.velocity.y);
+
+        if(boxCollider.size != null)
+        {
+            if(direction != 0)
+            {
+                boxCollider.size = boxColliderSize - new Vector2(0, 0.15f);
+            }
+            else
+            {
+                boxCollider.size = boxColliderSize + new Vector2(0, 0.15f);
+            }
+        }
 
         
         if (lastPosition == new Vector3(0.000001f, 0.000001f, 0.000001f)) 
@@ -94,9 +116,31 @@ public class Enemy : MonoBehaviour
     private IEnumerator OnMove()
     {
         yield return new WaitForSeconds(stupiedTime);
-        if(Vector3.Distance(transform.position, lastPosition) < stupiedTime * 2) 
+        if (Vector3.Distance(transform.position, lastPosition) < stupiedTime * 2)
         {
             invertable *= -1;
+        }
+    }
+
+
+    private IEnumerator OnPlayerAttacked()
+    {
+        if (player.transform.localScale.x > 1.4f && sized)
+        {
+            player.transform.localScale -= new Vector3(0.01f, 0.01f, 0);
+            yield return new WaitForSeconds(0.05f);
+            StartCoroutine(OnPlayerAttacked());
+        }
+        else if(player.transform.localScale.x < 1.5f)
+        {
+            sized = false;
+            player.transform.localScale += new Vector3(0.01f, 0.01f, 0);
+            yield return new WaitForSeconds(0.05f);
+            StartCoroutine(OnPlayerAttacked());
+        }
+        else if(player.transform.localScale.x == 1.5f)
+        {
+            yield return null;
         }
     }
 
@@ -106,6 +150,7 @@ public class Enemy : MonoBehaviour
         playerInformation.GiveDamage(damage);
         CameraController.Camera.GetComponent<CameraController>().OnHitted();
         StartCoroutine(AttackDelay());
+        // StartCoroutine(OnPlayerAttacked());
     }
 
     private IEnumerator AttackDelay()

@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5053939327404093361}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 38.26, y: 2.94, z: -1}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 2.008945, y: 1.9476496, z: 1.0044725}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -95,13 +95,13 @@ CircleCollider2D:
   m_GameObject: {fileID: 5053939327404093361}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 50aac21732315b34d802d76b3074fd44, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.03}
   serializedVersion: 2
-  m_Radius: 0.53
+  m_Radius: 0.5
 --- !u!50 &5053939327404093370
 Rigidbody2D:
   serializedVersion: 4
@@ -135,9 +135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ce0a1e5606028449dc470edacd62b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingDistance: 2
-  speed: 1.5
-  speedDelay: 0.25
+  walkingDistance: 2.05
+  speed: 1
+  speedDelay: 0.1
+  canJump: 1
+  effectPower: 2000
 --- !u!95 &5053939327404093371
 Animator:
   serializedVersion: 3

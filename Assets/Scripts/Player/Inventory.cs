@@ -52,7 +52,6 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Text healthText;
     [SerializeField] private Text staminaText;
     [SerializeField] private Text jumpText;
-    [SerializeField] private Text shieldText;
 
     public PotionType currentPotion = new PotionType();
     private int currentPotionID = 0;
@@ -62,13 +61,12 @@ public class Inventory : MonoBehaviour
     [SerializeField] private int healAmount = 25;
 
     private void Awake()
-    {
-        potions = new PotionType[4]
+    { 
+        potions = new PotionType[3]
         {
            new PotionType("stamina", staminaText, 2),
            new PotionType("health", healthText, 3),
-           new PotionType("jump", jumpText, 4),
-           new PotionType("shield", shieldText, 5)
+           new PotionType("jump", jumpText, 4)
         };
     }
 
@@ -115,7 +113,7 @@ public class Inventory : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !PlayerUI.canContact)
         {
             if (currentPotion.amount == 0)
                 return;
@@ -132,8 +130,6 @@ public class Inventory : MonoBehaviour
                     break;
                 case "jump":
                     equipper.EquipJumpPotion();
-                    break;
-                case "shield":
                     break;
             }
         }
