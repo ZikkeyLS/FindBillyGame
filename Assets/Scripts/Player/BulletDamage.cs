@@ -2,7 +2,7 @@
 
 public class BulletDamage : MonoBehaviour
 {
-    private int damage = 10;
+    private int damage = 35;
     private Camera mainCamera; 
 
     public void SetDamage(int value) => damage = value;

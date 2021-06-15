@@ -11,7 +11,7 @@ public class JumpBox : MonoBehaviour
     [SerializeField] private float speed = 2.5f;
     [SerializeField] private float speedDelay = 0.25f;
     public bool canJump = true;
-    public float effectPower = 50;
+    public float effectPower = 10;
     private float constSpeed;
 
     void Start()

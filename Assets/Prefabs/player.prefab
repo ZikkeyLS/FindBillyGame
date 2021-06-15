@@ -1556,7 +1556,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3934734214712469706}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c53ac4195294acd469ac3114a609f2be, type: 3}
   m_Name: 
@@ -1584,7 +1584,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  speedModificator: 1.5
   jumpHeight: 5
+  jumpHeightModificator: 1.5
   jumpDelay: 0.75
   canJump: 1
   canStare: 0
