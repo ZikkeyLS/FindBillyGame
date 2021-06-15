@@ -167,8 +167,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 684b894c82fb63647879917ccbd02c34, type: 2}
+  m_sharedMaterial: {fileID: -2976535340911100977, guid: 684b894c82fb63647879917ccbd02c34, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: -0.2618563}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -404,7 +404,6 @@ MonoBehaviour:
   damage: 15
   attackDelay: 3
   animationController: {fileID: 8619478315995663869}
-  attackAnimation: {fileID: 0}
   component: {fileID: 8063373067716606272, guid: 9817f0119ce37b149938f63520c1eb8b, type: 3}
   minComponents: 2
   maxComponents: 5
