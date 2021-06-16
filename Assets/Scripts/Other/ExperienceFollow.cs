@@ -13,7 +13,11 @@ public class ExperienceFollow : MonoBehaviour
     void Update()
     {
         if (player == null)
+        {
             Destroy(gameObject);
+            return;
+        }
+
 
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, 0, 1));
         transform.position = Vector3.Lerp(transform.position, player.transform.position, speed);

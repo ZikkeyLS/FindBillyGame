@@ -53,12 +53,15 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Text staminaText;
     [SerializeField] private Text jumpText;
 
-    public PotionType currentPotion = new PotionType();
-    private int currentPotionID = 0;
+    public static PotionType currentPotion;
+    public static int currentPotionID = 0;
     [SerializeField] private PlayerEquipper equipper;
 
     public static PotionType[] potions = new PotionType[4];
     [SerializeField] private int healAmount = 25;
+
+    private PlayerInformation playerInformation;
+    private PlayerUI playerUI;
 
     private void Awake()
     { 
@@ -79,6 +82,8 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
+        playerInformation = PlayerInformation.information;
+        playerUI = playerInformation.GetComponent<PlayerUI>();
         SelectPotion(currentPotionID, 1);
         currentPotion = potions[currentPotionID];
     }
@@ -118,20 +123,30 @@ public class Inventory : MonoBehaviour
             if (currentPotion.amount == 0)
                 return;
 
-            currentPotion.RemovePotion();
+
 
             switch (currentPotion.name) 
             {
                 case "health":
+                    if(PlayerInformation.information.GetHealth() == 100)
+                    {
+                        StartCoroutine(playerUI.ShowHpInfo(2));
+                        return;
+                    }
                     equipper.EquipHealthPotion(healAmount);
+                    playerUI.OnPotion(PlayerUI.Potions.health);
                     break;
                 case "stamina":
                     equipper.EquipStaminaPotion();
+                    playerUI.OnPotion(PlayerUI.Potions.stamina);
                     break;
                 case "jump":
                     equipper.EquipJumpPotion();
+                    playerUI.OnPotion(PlayerUI.Potions.jump);
                     break;
             }
+
+            currentPotion.RemovePotion();
         }
     }
 }

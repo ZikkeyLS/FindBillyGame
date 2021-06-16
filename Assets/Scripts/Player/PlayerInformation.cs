@@ -18,11 +18,11 @@ public class PlayerInformation : MonoBehaviour
 
     public int GetHealth() => health;
 
-    public void SetHealth(int value) { health = value; OnHealthChanged(false); }
+    public void SetHealth(int value) { health = value; OnHealthChanged(); }
 
-    public void GiveDamage(int value) { health -= value; OnHealthChanged(true); }
+    public void GiveDamage(int value) { health -= value; OnHealthChanged(); ShowScreen(true); }
 
-    private void OnHealthChanged(bool damaged)
+    private void ShowScreen(bool damaged)
     {
         if (damaged)
         {
@@ -34,6 +34,10 @@ public class PlayerInformation : MonoBehaviour
         }
 
         StartCoroutine(AttackScreen());
+    }
+
+    private void OnHealthChanged()
+    {
         if (GetHealth() <= 0)
         {
             Destroy(gameObject);
