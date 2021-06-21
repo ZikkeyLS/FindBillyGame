@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
 
     private bool attacking = false;
     private bool sized = true;
+    private bool canRotate = true;
    
 
     public int GetHealth() => health;
@@ -76,10 +77,22 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private IEnumerator RotateDelay()
+    {
+        canRotate = false;
+        yield return new WaitForSeconds(1);
+        canRotate = true;
+    }
+
     private void CalculateMovement()
     {
+
         float direction =  invertable * (player.transform.position.x - transform.position.x) > 0 ? -scale.x : scale.x;
 
+        if (!canRotate)
+            return;
+
+        StartCoroutine(RotateDelay());
 
         transform.localScale = new Vector2(direction, transform.localScale.y);
         physics.velocity = new Vector2(-direction / scale.x * movementSpeed, physics.velocity.y);
@@ -95,18 +108,19 @@ public class Enemy : MonoBehaviour
                 boxCollider.size = boxColliderSize + new Vector2(0, 0.15f);
             }
         }
-
         
         if (lastPosition == new Vector3(0.000001f, 0.000001f, 0.000001f)) 
         {
             lastPosition = transform.position;
             StartCoroutine(OnMove());
         }
-        else if(invertable < 0)
+        else if(invertable < 0 && canRotate)
         {
+
             RaycastHit2D raycast = Physics2D.Raycast(transform.position - new Vector3(0, 2f), -transform.up, 1);
             if (raycast.transform != null && (int)lastPosition.y != (int)transform.position.y && (int)lastPosition.x != (int)transform.position.x)
             {
+                StartCoroutine(RotateDelay());
                 invertable *= -1;
                 lastPosition = new Vector3(0.000001f, 0.000001f, 0.000001f);
             }
@@ -118,29 +132,8 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(stupiedTime);
         if (Vector3.Distance(transform.position, lastPosition) < stupiedTime * 2)
         {
+
             invertable *= -1;
-        }
-    }
-
-
-    private IEnumerator OnPlayerAttacked()
-    {
-        if (player.transform.localScale.x > 1.4f && sized)
-        {
-            player.transform.localScale -= new Vector3(0.01f, 0.01f, 0);
-            yield return new WaitForSeconds(0.05f);
-            StartCoroutine(OnPlayerAttacked());
-        }
-        else if(player.transform.localScale.x < 1.5f)
-        {
-            sized = false;
-            player.transform.localScale += new Vector3(0.01f, 0.01f, 0);
-            yield return new WaitForSeconds(0.05f);
-            StartCoroutine(OnPlayerAttacked());
-        }
-        else if(player.transform.localScale.x == 1.5f)
-        {
-            yield return null;
         }
     }
 
@@ -150,7 +143,6 @@ public class Enemy : MonoBehaviour
         playerInformation.GiveDamage(damage);
         CameraController.Camera.GetComponent<CameraController>().OnHitted();
         StartCoroutine(AttackDelay());
-        // StartCoroutine(OnPlayerAttacked());
     }
 
     private IEnumerator AttackDelay()

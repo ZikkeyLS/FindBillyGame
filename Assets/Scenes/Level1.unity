@@ -571,6 +571,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zombie (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8619478315995663868, guid: bba37774a487d6845a9880423f29a336, type: 3}
+      propertyPath: eyeDistance
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 8619478315995663871, guid: bba37774a487d6845a9880423f29a336, type: 3}
       propertyPath: m_RootOrder
       value: 10
